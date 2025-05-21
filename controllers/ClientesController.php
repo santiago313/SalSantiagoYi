@@ -1,7 +1,7 @@
 <?php
 
 namespace app\controllers;
-use yii;
+
 use app\models\Clientes;
 use app\models\ClientesSearch;
 use yii\web\Controller;

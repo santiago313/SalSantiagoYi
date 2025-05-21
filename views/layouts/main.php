@@ -34,52 +34,56 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
-        'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
+        'options' => ['class' => 'navbar navbar-expand-md navbar-dark bg-primary fixed-top shadow-sm']
     ]);
 
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav'],
-        'items' => array_filter([
-            ['label' => 'Inicio', 'url' => ['/site/index']],
-            ['label' => 'Acerca de Nosotros', 'url' => ['/site/about']],
-            ['label' => 'Contáctanos', 'url' => ['/site/contact']],
-            [
-                'label' => 'Gestionar Tienda',
-                'items' => array_filter([
-                    ['label' => 'Clientes', 'url' => ['/clientes/index']],
-                    ['label' => 'Vehículos', 'url' => ['/vehiculos/index']],
-                    ['label' => 'Vendedores', 'url' => ['/vendedores/index']],
-                    ['label' => 'Ventas', 'url' => ['/ventas/index']],
-                    ['label' => 'Detalle de ventas', 'url' => ['/detalleventa/index']],
-                    !Yii::$app->user->isGuest && Yii::$app->user->identity->role === 'admin'
-                        ? ['label' => 'Usuarios', 'url' => ['/user/index']]
-                        : null,
-                ]),
-            ],
-            Yii::$app->user->isGuest
-                ? ['label' => 'Iniciar Sesión', 'url' => ['/site/login']]
-                : ['label' => 'Cambiar contraseña', 'url' => ['/user/change-password']],
-            Yii::$app->user->isGuest
-                ? null
-                : '<li class="nav-item">'
-                    . Html::beginForm(['/site/logout'])
-                    . Html::submitButton(
-                        'Cerrar Sesión (' 
-                        . Html::encode(Yii::$app->user->identity->apellido . ' ' . Yii::$app->user->identity->nombre) 
-                        . ') ' . Html::encode(Yii::$app->user->identity->role),
-                        ['class' => 'nav-link btn btn-link logout']
-                    )
-                    . Html::endForm()
-                    . '</li>',
-        ]),
-    ]);
+    'options' => ['class' => 'navbar-nav'],
+    'items' => array_filter([
+        ['label' => 'Inicio', 'url' => ['/site/index']],
+        ['label' => 'Acerca de Nosotros', 'url' => ['/site/about']],
+        ['label' => 'Contáctanos', 'url' => ['/site/contact']],
+
+        !Yii::$app->user->isGuest ? [
+            'label' => 'Gestionar Tienda',
+            'items' => array_filter([
+                ['label' => 'Clientes', 'url' => ['/clientes/index']],
+                ['label' => 'Vehículos', 'url' => ['/vehiculos/index']],
+                ['label' => 'Vendedores', 'url' => ['/vendedores/index']],
+                ['label' => 'Ventas', 'url' => ['/ventas/index']],
+                ['label' => 'Detalle de ventas', 'url' => ['/detalleventa/index']],
+                Yii::$app->user->identity->role === 'admin'
+                    ? ['label' => 'Usuarios', 'url' => ['/user/index']]
+                    : null,
+            ], fn($item) => !is_null($item)),
+        ] : null,
+
+        Yii::$app->user->isGuest
+            ? ['label' => 'Iniciar Sesión', 'url' => ['/site/login']]
+            : ['label' => 'Cambiar contraseña', 'url' => ['/user/change-password']],
+
+        Yii::$app->user->isGuest
+            ? null
+            : '<li class="nav-item">'
+                . Html::beginForm(['/site/logout'])
+                . Html::submitButton(
+                    'Cerrar Sesión (' 
+                    . Html::encode(Yii::$app->user->identity->apellido . ' ' . Yii::$app->user->identity->nombre) 
+                    . ') ' . Html::encode(Yii::$app->user->identity->role),
+                    ['class' => 'nav-link btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>',
+    ], fn($item) => !is_null($item)),
+]);
+
 
     NavBar::end();
     ?>
 </header>
 
-<main id="main" class="flex-shrink-0" role="main">
-    <div class="container">
+<main id="main" class="flex-shrink-0" role="main" style="padding-top: 80px;">
+    <div class="container py-4">
         <?php if (!empty($this->params['breadcrumbs'])): ?>
             <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
         <?php endif ?>
@@ -88,9 +92,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     </div>
 </main>
 
-<footer id="footer" class="mt-auto py-3 bg-light">
+<footer id="footer" class="mt-auto py-4 bg-dark text-light">
     <div class="container">
-        <div class="row text-muted">
+        <div class="row">
             <div class="col-md-6 text-center text-md-start">&copy; My Company <?= date('Y') ?></div>
             <div class="col-md-6 text-center text-md-end"><?= Yii::powered() ?></div>
         </div>

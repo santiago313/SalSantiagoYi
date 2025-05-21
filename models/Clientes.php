@@ -11,8 +11,6 @@ use Yii;
  * @property string|null $nombre
  * @property string|null $correo
  * @property string|null $telefono
- *
- * @property Ventas[] $ventas
  */
 class Clientes extends \yii\db\ActiveRecord
 {
@@ -49,16 +47,6 @@ class Clientes extends \yii\db\ActiveRecord
             'correo' => Yii::t('app', 'Correo'),
             'telefono' => Yii::t('app', 'Telefono'),
         ];
-    }
-
-    /**
-     * Gets query for [[Ventas]].
-     *
-     * @return \yii\db\ActiveQuery|VentasQuery
-     */
-    public function getVentas()
-    {
-        return $this->hasMany(Ventas::class, ['clientes_idclientes' => 'idclientes']);
     }
 
     /**

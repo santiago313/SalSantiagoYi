@@ -49,7 +49,7 @@ use yii\widgets\ActiveForm;
         ]
     ) ?>
 
-    < <?php if (Yii::$app->user->identity->role === 'admin'): ?>
+     <?php if (Yii::$app->user->identity->role === 'admin'): ?>
         <div class="form-group">
             <?= Html::submitButton(Yii::t('app', 'Guardar'), ['class' => 'btn btn-success']) ?>
         </div>
