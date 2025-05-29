@@ -16,36 +16,21 @@ class VendedoresController extends Controller
     /**
      * @inheritDoc
      */
-    public function behaviors()
+   public function behaviors()
     {
-        return [
-            'access' => [
-                'class' => \yii\filters\AccessControl::class,
-                'only' => ['index', 'view', 'create', 'update', 'delete', 'reset-password', 'change-password'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['change-password'],
-                        'roles' => ['@'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'reset-password', 'change-password'],
-                        'roles' => ['@'],
-                        'matchCallback' => function ($rule, $action) {
-                            return Yii::$app->user->identity->role == 'admin';
-                        },
+        return array_merge(
+            parent::behaviors(),
+            [
+                'verbs' => [
+                    'class' => VerbFilter::className(),
+                    'actions' => [
+                        'delete' => ['POST'],
                     ],
                 ],
-            ],
-            'verbs' => [
-                'class' => \yii\filters\VerbFilter::class,
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
+            ]
+        );
     }
+
 
     /**
      * Lists all Vendedores models.

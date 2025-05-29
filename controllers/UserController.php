@@ -10,36 +10,7 @@ use app\models\ChangePasswordForm;
 
 class UserController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => \yii\filters\AccessControl::class,
-                'only' => ['index', 'view', 'create', 'update', 'delete', 'reset-password', 'change-password'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['change-password'],
-                        'roles' => ['@'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update', 'delete', 'reset-password', 'change-password'],
-                        'roles' => ['@'],
-                        'matchCallback' => function ($rule, $action) {
-                            return Yii::$app->user->identity->role == 'admin';
-                        },
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => \yii\filters\VerbFilter::class,
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+   
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
